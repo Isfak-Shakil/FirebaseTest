@@ -3,6 +3,7 @@ package com.example.firebasedemo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -12,14 +13,29 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
-       TextView textView1,textView2;
+       TextView textView1,textView2,getDateAndTime;
+       Calendar calendar;
+       SimpleDateFormat simpleDateFormat;
+       String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView1=findViewById(R.id.tv1);
         textView2=findViewById(R.id.tv2);
+       getDateAndTime=findViewById(R.id.tv3);
+
+
+       calendar=Calendar.getInstance();
+       simpleDateFormat=new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+       date=simpleDateFormat.format(calendar.getTime());
+
+       getDateAndTime.setText(date);
 
 
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
@@ -36,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     String ab=snapshot.child("time").getValue().toString();
                     textView1.setText(a);
                     textView2.setText(ab);
+
                 //}
             }
 
@@ -44,5 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }
